@@ -1,4 +1,4 @@
-require('dotenv').config();
+require('dotenv').config({ path: require('path').join(__dirname, '.env') });
 const express = require('express');
 const path = require('path');
 const compression = require('compression');
@@ -17,7 +17,12 @@ app.get('*', (req, res) =>
 );
 
 const PORT = process.env.PORT || 3001;
-app.listen(PORT, () => {
-  console.log(`AI Project Registry running on http://localhost:${PORT}`);
+const server = app.listen(PORT, '127.0.0.1', () => {
+  console.log(`AI Project Registry running on http://127.0.0.1:${PORT}`);
   console.log(`Admin PIN is set via ADMIN_PIN environment variable`);
+});
+
+server.on('error', (err) => {
+  console.error('Server error:', err.message);
+  process.exit(1);
 });
