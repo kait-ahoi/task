@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="et">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex,nofollow">
+  <title data-i18n="app_title">AI Project Registry</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- TOPBAR -->
+  <header class="topbar">
+    <div class="topbar-brand">
+      <span class="topbar-icon">🤖</span>
+      <span class="topbar-title" data-i18n="app_title">AI Project Registry</span>
+    </div>
+    <div class="topbar-actions">
+      <div class="lang-switcher">
+        <button class="lang-btn active" data-lang="et">ET</button>
+        <button class="lang-btn" data-lang="en">EN</button>
+        <button class="lang-btn" data-lang="lv">LV</button>
+        <button class="lang-btn" data-lang="lt">LT</button>
+      </div>
+      <button class="btn btn-primary" id="btn-open-add" data-i18n="nav_add">Lisa projekt</button>
+    </div>
+  </header>
+
+  <!-- STATS BAR -->
+  <section class="stats-bar">
+    <div class="stat-card">
+      <div class="stat-value" id="stat-total">—</div>
+      <div class="stat-label" data-i18n="stat_total">Projektide arv</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value" id="stat-planned">—</div>
+      <div class="stat-label" data-i18n="stat_planned">Planeeritud kokkuhoid</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value" id="stat-actual">—</div>
+      <div class="stat-label" data-i18n="stat_actual">Tegelik kokkuhoid</div>
+    </div>
+  </section>
+
+  <!-- FILTERS -->
+  <section class="filters">
+    <select id="filter-country" class="filter-select">
+      <option value="" data-i18n="filter_country">Riik</option>
+      <option value="EE">🇪🇪 EE</option>
+      <option value="LV">🇱🇻 LV</option>
+      <option value="LT">🇱🇹 LT</option>
+      <option value="ENG">🌐 ENG</option>
+    </select>
+    <select id="filter-status" class="filter-select">
+      <option value="" data-i18n="filter_status">Staatus</option>
+      <option value="Planning" data-i18n="status_Planning">Planeerimisel</option>
+      <option value="Development" data-i18n="status_Development">Arenduses</option>
+      <option value="Pilot" data-i18n="status_Pilot">Piloot</option>
+      <option value="Live" data-i18n="status_Live">Töös</option>
+      <option value="Paused" data-i18n="status_Paused">Peatatud</option>
+    </select>
+    <select id="filter-tool" class="filter-select">
+      <option value="" data-i18n="filter_tool">AI tööriist</option>
+      <option value="Claude">Claude</option>
+      <option value="ChatGPT">ChatGPT</option>
+      <option value="Copilot">Copilot</option>
+      <option value="Gemini">Gemini</option>
+      <option value="Other" data-i18n="filter_other">Muu</option>
+    </select>
+  </section>
+
+  <!-- TABLE -->
+  <main class="table-wrapper">
+    <table class="projects-table">
+      <thead>
+        <tr>
+          <th data-i18n="col_name">Projekti nimi</th>
+          <th data-i18n="col_country">Riik</th>
+          <th data-i18n="col_responsible">Vastutaja</th>
+          <th data-i18n="col_department">Osakond</th>
+          <th data-i18n="col_tool">AI tööriist</th>
+          <th data-i18n="col_provider">Teenusepakkuja</th>
+          <th data-i18n="col_status">Staatus</th>
+          <th data-i18n="col_planned">Planeeritud (€/a)</th>
+          <th data-i18n="col_actual">Tegelik (€/a)</th>
+          <th data-i18n="col_start">Algus</th>
+          <th data-i18n="col_actions">Toimingud</th>
+        </tr>
+      </thead>
+      <tbody id="projects-body">
+        <tr><td colspan="11" class="empty-row" data-i18n="no_projects">Ühtegi projekti ei leitud</td></tr>
+      </tbody>
+    </table>
+  </main>
+
+  <!-- MODAL: ADD / EDIT -->
+  <div class="modal-overlay" id="modal-overlay" hidden>
+    <div class="modal">
+      <div class="modal-header">
+        <h2 class="modal-title" id="modal-title" data-i18n="modal_add_title">Lisa uus projekt</h2>
+        <button class="modal-close" id="modal-close">&times;</button>
+      </div>
+      <form id="project-form" class="project-form" novalidate>
+        <input type="hidden" id="form-id">
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="form-name" data-i18n="label_name">Projekti nimi</label>
+            <input type="text" id="form-name" required>
+          </div>
+          <div class="form-group">
+            <label for="form-country" data-i18n="label_country">Riik / keel</label>
+            <select id="form-country" required>
+              <option value="">—</option>
+              <option value="EE">🇪🇪 EE</option>
+              <option value="LV">🇱🇻 LV</option>
+              <option value="LT">🇱🇹 LT</option>
+              <option value="ENG">🌐 ENG</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="form-responsible" data-i18n="label_responsible">Vastutaja</label>
+            <input type="text" id="form-responsible" required>
+          </div>
+          <div class="form-group">
+            <label for="form-department" data-i18n="label_department">Osakond</label>
+            <input type="text" id="form-department" required>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="form-tool" data-i18n="label_tool">Kasutatav AI</label>
+            <select id="form-tool" required>
+              <option value="">—</option>
+              <option value="Claude">Claude</option>
+              <option value="ChatGPT">ChatGPT</option>
+              <option value="Copilot">Copilot</option>
+              <option value="Gemini">Gemini</option>
+              <option value="Other">Other / Muu</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="form-provider" data-i18n="label_provider">Teenusepakkuja</label>
+            <input type="text" id="form-provider" data-i18n-placeholder="placeholder_provider">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="form-status" data-i18n="label_status">Staatus</label>
+            <select id="form-status" required>
+              <option value="">—</option>
+              <option value="Planning" data-i18n="status_Planning">Planeerimisel</option>
+              <option value="Development" data-i18n="status_Development">Arenduses</option>
+              <option value="Pilot" data-i18n="status_Pilot">Piloot</option>
+              <option value="Live" data-i18n="status_Live">Töös</option>
+              <option value="Paused" data-i18n="status_Paused">Peatatud</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="form-start" data-i18n="label_start">Alguskuupäev</label>
+            <input type="date" id="form-start">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="form-planned" data-i18n="label_planned">Planeeritud kokkuhoid (€/a)</label>
+            <input type="number" id="form-planned" min="0" step="100">
+          </div>
+          <div class="form-group">
+            <label for="form-actual" data-i18n="label_actual">Tegelik kokkuhoid (€/a)</label>
+            <input type="number" id="form-actual" min="0" step="100">
+          </div>
+        </div>
+
+        <div class="form-group full-width">
+          <label for="form-description" data-i18n="label_description">Lühikirjeldus</label>
+          <textarea id="form-description" rows="3" data-i18n-placeholder="placeholder_description"></textarea>
+        </div>
+
+        <!-- PIN field (shown only for edit) -->
+        <div class="form-group full-width" id="pin-group" hidden>
+          <label for="form-pin" data-i18n="pin_prompt">Admini PIN:</label>
+          <input type="password" id="form-pin" data-i18n-placeholder="pin_placeholder" maxlength="10" autocomplete="off">
+          <span class="field-error" id="pin-error" hidden data-i18n="err_pin">Vale PIN</span>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" class="btn btn-secondary" id="btn-cancel" data-i18n="btn_cancel">Tühista</button>
+          <button type="submit" class="btn btn-primary" id="btn-save" data-i18n="btn_save">Salvesta</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: DELETE CONFIRM -->
+  <div class="modal-overlay" id="delete-overlay" hidden>
+    <div class="modal modal-sm">
+      <div class="modal-header">
+        <h2 class="modal-title" data-i18n="modal_delete_title">Kustuta projekt</h2>
+        <button class="modal-close" id="delete-close">&times;</button>
+      </div>
+      <p data-i18n="delete_confirm_text">Oled kindel, et soovid selle projekti kustutada?</p>
+      <div class="form-group">
+        <label for="delete-pin" data-i18n="pin_prompt">Admini PIN:</label>
+        <input type="password" id="delete-pin" data-i18n-placeholder="pin_placeholder" maxlength="10" autocomplete="off">
+        <span class="field-error" id="delete-pin-error" hidden data-i18n="err_pin">Vale PIN</span>
+      </div>
+      <div class="form-actions">
+        <button type="button" class="btn btn-secondary" id="delete-cancel" data-i18n="btn_cancel">Tühista</button>
+        <button type="button" class="btn btn-danger" id="delete-confirm" data-i18n="btn_confirm_delete">Kinnita kustutamine</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
