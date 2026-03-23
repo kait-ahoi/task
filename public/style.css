@@ -201,6 +201,7 @@ body {
 .badge-Pilot       { background: var(--status-pilot); }
 .badge-Live        { background: var(--status-live); }
 .badge-Paused      { background: var(--status-paused); }
+.badge-Valmis      { background: #20c997; }
 
 /* Country flags */
 .country-tag {

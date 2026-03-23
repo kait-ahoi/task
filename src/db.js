@@ -28,4 +28,33 @@ db.exec(`
   )
 `);
 
+// Migration v1: remove ai_tool CHECK constraint, add 'Valmis' to status CHECK
+const version = db.prepare('PRAGMA user_version').get().user_version;
+if (version < 1) {
+  db.exec(`
+    BEGIN;
+    CREATE TABLE projects_new (
+      id               INTEGER PRIMARY KEY AUTOINCREMENT,
+      name             TEXT NOT NULL,
+      country          TEXT NOT NULL CHECK(country IN ('EE','LV','LT','ENG')),
+      responsible      TEXT NOT NULL,
+      department       TEXT NOT NULL,
+      ai_tool          TEXT NOT NULL,
+      service_provider TEXT,
+      status           TEXT NOT NULL CHECK(status IN ('Planning','Development','Pilot','Live','Paused','Valmis')),
+      planned_savings  REAL DEFAULT 0,
+      actual_savings   REAL DEFAULT 0,
+      start_date       TEXT,
+      description      TEXT,
+      created_at       TEXT NOT NULL DEFAULT (datetime('now')),
+      updated_at       TEXT NOT NULL DEFAULT (datetime('now'))
+    );
+    INSERT INTO projects_new SELECT * FROM projects;
+    DROP TABLE projects;
+    ALTER TABLE projects_new RENAME TO projects;
+    PRAGMA user_version = 1;
+    COMMIT;
+  `);
+}
+
 module.exports = db;

@@ -58,13 +58,16 @@
       <option value="Pilot" data-i18n="status_Pilot">Piloot</option>
       <option value="Live" data-i18n="status_Live">Töös</option>
       <option value="Paused" data-i18n="status_Paused">Peatatud</option>
+      <option value="Valmis" data-i18n="status_Valmis">Valmis</option>
     </select>
     <select id="filter-tool" class="filter-select">
       <option value="" data-i18n="filter_tool">AI tööriist</option>
       <option value="Claude">Claude</option>
+      <option value="Claude Code">Claude Code</option>
       <option value="ChatGPT">ChatGPT</option>
       <option value="Copilot">Copilot</option>
       <option value="Gemini">Gemini</option>
+      <option value="Gemini GEM">Gemini GEM</option>
       <option value="Other" data-i18n="filter_other">Muu</option>
     </select>
   </section>
@@ -134,18 +137,27 @@
         <div class="form-row">
           <div class="form-group">
             <label for="form-tool" data-i18n="label_tool">Kasutatav AI</label>
-            <select id="form-tool" required>
-              <option value="">—</option>
-              <option value="Claude">Claude</option>
-              <option value="ChatGPT">ChatGPT</option>
-              <option value="Copilot">Copilot</option>
-              <option value="Gemini">Gemini</option>
-              <option value="Other">Other / Muu</option>
-            </select>
+            <input type="text" id="form-tool" list="ai-tools-list" required autocomplete="off">
+            <datalist id="ai-tools-list">
+              <option value="Claude">
+              <option value="Claude Code">
+              <option value="ChatGPT">
+              <option value="Copilot">
+              <option value="Gemini">
+              <option value="Gemini GEM">
+              <option value="Other / Muu">
+            </datalist>
           </div>
           <div class="form-group">
             <label for="form-provider" data-i18n="label_provider">Teenusepakkuja</label>
-            <input type="text" id="form-provider" data-i18n-placeholder="placeholder_provider">
+            <input type="text" id="form-provider" list="providers-list" autocomplete="off" data-i18n-placeholder="placeholder_provider">
+            <datalist id="providers-list">
+              <option value="Anthropic">
+              <option value="OpenAI">
+              <option value="Microsoft">
+              <option value="Google">
+              <option value="Zone.ee">
+            </datalist>
           </div>
         </div>
 
@@ -159,6 +171,7 @@
               <option value="Pilot" data-i18n="status_Pilot">Piloot</option>
               <option value="Live" data-i18n="status_Live">Töös</option>
               <option value="Paused" data-i18n="status_Paused">Peatatud</option>
+              <option value="Valmis" data-i18n="status_Valmis">Valmis</option>
             </select>
           </div>
           <div class="form-group">

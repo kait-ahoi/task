@@ -53,5 +53,6 @@
   "status_Pilot": "Pilot",
   "status_Live": "Live",
   "status_Paused": "Paused",
+  "status_Valmis": "Ready",
   "year_short": "yr"
 }

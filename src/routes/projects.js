@@ -4,8 +4,7 @@ const db = require('../db');
 const requirePin = require('../middleware/adminPin');
 
 const VALID_COUNTRIES = ['EE', 'LV', 'LT', 'ENG'];
-const VALID_TOOLS = ['Claude', 'ChatGPT', 'Copilot', 'Gemini', 'Other'];
-const VALID_STATUSES = ['Planning', 'Development', 'Pilot', 'Live', 'Paused'];
+const VALID_STATUSES = ['Planning', 'Development', 'Pilot', 'Live', 'Paused', 'Valmis'];
 
 // GET /api/projects
 router.get('/', (req, res) => {
@@ -21,7 +20,7 @@ router.get('/', (req, res) => {
     sql += ' AND status = ?';
     params.push(status);
   }
-  if (ai_tool && VALID_TOOLS.includes(ai_tool)) {
+  if (ai_tool) {
     sql += ' AND ai_tool = ?';
     params.push(ai_tool);
   }
@@ -38,7 +37,6 @@ router.post('/', (req, res) => {
     return res.status(400).json({ error: 'Missing required fields' });
   }
   if (!VALID_COUNTRIES.includes(country)) return res.status(400).json({ error: 'Invalid country' });
-  if (!VALID_TOOLS.includes(ai_tool)) return res.status(400).json({ error: 'Invalid ai_tool' });
   if (!VALID_STATUSES.includes(status)) return res.status(400).json({ error: 'Invalid status' });
 
   const stmt = db.prepare(`
@@ -59,7 +57,6 @@ router.put('/:id', requirePin, (req, res) => {
     return res.status(400).json({ error: 'Missing required fields' });
   }
   if (!VALID_COUNTRIES.includes(country)) return res.status(400).json({ error: 'Invalid country' });
-  if (!VALID_TOOLS.includes(ai_tool)) return res.status(400).json({ error: 'Invalid ai_tool' });
   if (!VALID_STATUSES.includes(status)) return res.status(400).json({ error: 'Invalid status' });
 
   const existing = db.prepare('SELECT id FROM projects WHERE id = ?').get(req.params.id);
