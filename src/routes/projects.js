@@ -31,7 +31,7 @@ router.get('/', (req, res) => {
 
 // POST /api/projects
 router.post('/', (req, res) => {
-  const { name, country, responsible, department, ai_tool, service_provider, status, planned_savings, actual_savings, start_date, description } = req.body;
+  const { name, country, responsible, department, ai_tool, service_provider, status, planned_savings, actual_savings, start_date, description, resources } = req.body;
 
   if (!name || !country || !responsible || !department || !ai_tool || !status) {
     return res.status(400).json({ error: 'Missing required fields' });
@@ -40,18 +40,18 @@ router.post('/', (req, res) => {
   if (!VALID_STATUSES.includes(status)) return res.status(400).json({ error: 'Invalid status' });
 
   const stmt = db.prepare(`
-    INSERT INTO projects (name, country, responsible, department, ai_tool, service_provider, status, planned_savings, actual_savings, start_date, description)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    INSERT INTO projects (name, country, responsible, department, ai_tool, service_provider, status, planned_savings, actual_savings, start_date, description, resources)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
   `);
 
-  const result = stmt.run(name, country, responsible, department, ai_tool, service_provider || '', status, planned_savings || 0, actual_savings || 0, start_date || null, description || '');
+  const result = stmt.run(name, country, responsible, department, ai_tool, service_provider || '', status, planned_savings || 0, actual_savings || 0, start_date || null, description || '', resources || '');
   const project = db.prepare('SELECT * FROM projects WHERE id = ?').get(result.lastInsertRowid);
   res.status(201).json(project);
 });
 
 // PUT /api/projects/:id
 router.put('/:id', requirePin, (req, res) => {
-  const { name, country, responsible, department, ai_tool, service_provider, status, planned_savings, actual_savings, start_date, description } = req.body;
+  const { name, country, responsible, department, ai_tool, service_provider, status, planned_savings, actual_savings, start_date, description, resources } = req.body;
 
   if (!name || !country || !responsible || !department || !ai_tool || !status) {
     return res.status(400).json({ error: 'Missing required fields' });
@@ -65,10 +65,10 @@ router.put('/:id', requirePin, (req, res) => {
   db.prepare(`
     UPDATE projects SET
       name=?, country=?, responsible=?, department=?, ai_tool=?, service_provider=?,
-      status=?, planned_savings=?, actual_savings=?, start_date=?, description=?,
+      status=?, planned_savings=?, actual_savings=?, start_date=?, description=?, resources=?,
       updated_at=datetime('now')
     WHERE id=?
-  `).run(name, country, responsible, department, ai_tool, service_provider || '', status, planned_savings || 0, actual_savings || 0, start_date || null, description || '', req.params.id);
+  `).run(name, country, responsible, department, ai_tool, service_provider || '', status, planned_savings || 0, actual_savings || 0, start_date || null, description || '', resources || '', req.params.id);
 
   res.json(db.prepare('SELECT * FROM projects WHERE id = ?').get(req.params.id));
 });

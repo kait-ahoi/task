@@ -54,5 +54,7 @@
   "status_Live": "Aktyvus",
   "status_Paused": "Sustabdytas",
   "status_Valmis": "Paruošta",
+  "label_resources": "Naudojami ištekliai",
+  "col_resources": "Ištekliai",
   "year_short": "m"
 }

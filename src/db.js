@@ -28,7 +28,7 @@ db.exec(`
   )
 `);
 
-// Migration v1: remove ai_tool CHECK constraint, add 'Valmis' to status CHECK
+// Migrations
 const version = db.prepare('PRAGMA user_version').get().user_version;
 if (version < 1) {
   db.exec(`
@@ -54,6 +54,13 @@ if (version < 1) {
     ALTER TABLE projects_new RENAME TO projects;
     PRAGMA user_version = 1;
     COMMIT;
+  `);
+}
+
+if (version < 2) {
+  db.exec(`
+    ALTER TABLE projects ADD COLUMN resources TEXT DEFAULT '';
+    PRAGMA user_version = 2;
   `);
 }
 

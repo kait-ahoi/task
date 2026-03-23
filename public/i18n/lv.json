@@ -54,5 +54,7 @@
   "status_Live": "Aktīvs",
   "status_Paused": "Apturēts",
   "status_Valmis": "Gatavs",
+  "label_resources": "Izmantotie resursi",
+  "col_resources": "Resursi",
   "year_short": "g"
 }

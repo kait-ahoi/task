@@ -203,6 +203,30 @@ body {
 .badge-Paused      { background: var(--status-paused); }
 .badge-Valmis      { background: #20c997; }
 
+/* ── RESOURCE TAGS ── */
+.res-tag {
+  display: inline-block;
+  font-size: 11px;
+  background: #e8f0fe;
+  color: #1a3a5c;
+  border-radius: 4px;
+  padding: 2px 6px;
+  margin: 1px 2px;
+  white-space: nowrap;
+}
+
+.resources-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding: 10px 0 4px;
+}
+
+.res-group { display: flex; flex-direction: column; gap: 4px; min-width: 140px; }
+.res-group-label { font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 2px; }
+.res-group label { font-size: 13px; display: flex; align-items: center; gap: 6px; cursor: pointer; font-weight: 400; text-transform: none; letter-spacing: 0; color: var(--text); }
+.res-group input[type="checkbox"] { cursor: pointer; }
+
 /* Country flags */
 .country-tag {
   font-size: 13px;

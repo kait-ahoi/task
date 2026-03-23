@@ -54,5 +54,7 @@
   "status_Live": "Live",
   "status_Paused": "Paused",
   "status_Valmis": "Ready",
+  "label_resources": "Resources used",
+  "col_resources": "Resources",
   "year_short": "yr"
 }

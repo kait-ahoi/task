@@ -50,6 +50,11 @@ function fmtDate(val) {
 
 const COUNTRY_FLAGS = { EE: '🇪🇪', LV: '🇱🇻', LT: '🇱🇹', ENG: '🌐' };
 
+function resourceTags(val) {
+  if (!val) return '—';
+  return val.split(',').filter(Boolean).map(r => `<span class="res-tag">@${r.trim()}</span>`).join(' ');
+}
+
 function statusBadge(status) {
   const label = t(`status_${status}`) || status;
   return `<span class="badge badge-${status}">${label}</span>`;
@@ -103,6 +108,7 @@ function renderTable(projects) {
       <td style="text-align:right">${fmtMoney(p.planned_savings)}</td>
       <td style="text-align:right">${fmtMoney(p.actual_savings)}</td>
       <td>${fmtDate(p.start_date)}</td>
+      <td>${resourceTags(p.resources)}</td>
       <td>
         <div class="action-btns">
           <button class="btn-icon" onclick="openEditModal(${p.id})" title="${t('btn_edit')}">✏️</button>
@@ -125,6 +131,7 @@ function openAddModal() {
   document.getElementById('form-id').value = '';
   document.getElementById('pin-group').hidden = true;
   document.getElementById('form-pin').value = '';
+  document.querySelectorAll('[name="resources"]').forEach(cb => cb.checked = false);
   clearFormErrors();
   showModal('modal-overlay');
 }
@@ -155,6 +162,11 @@ async function openEditModal(id) {
     document.getElementById('form-description').value = p.description || '';
     document.getElementById('form-pin').value = '';
 
+    const selected = (p.resources || '').split(',').map(r => r.trim()).filter(Boolean);
+    document.querySelectorAll('[name="resources"]').forEach(cb => {
+      cb.checked = selected.includes(cb.value);
+    });
+
     document.getElementById('pin-group').hidden = false;
     showModal('modal-overlay');
   } catch (e) {
@@ -180,6 +192,7 @@ async function submitProject(e) {
     actual_savings: parseFloat(document.getElementById('form-actual').value) || 0,
     start_date: document.getElementById('form-start').value || null,
     description: document.getElementById('form-description').value.trim(),
+    resources: Array.from(document.querySelectorAll('[name="resources"]:checked')).map(cb => cb.value).join(','),
   };
 
   const required = ['name', 'country', 'responsible', 'department', 'ai_tool', 'status'];

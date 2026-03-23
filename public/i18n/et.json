@@ -54,5 +54,7 @@
   "status_Live": "Töös",
   "status_Paused": "Peatatud",
   "status_Valmis": "Valmis",
+  "label_resources": "Kasutatavad ressursid",
+  "col_resources": "Ressursid",
   "year_short": "a"
 }

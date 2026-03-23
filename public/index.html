@@ -87,6 +87,7 @@
           <th data-i18n="col_planned">Planeeritud (€/a)</th>
           <th data-i18n="col_actual">Tegelik (€/a)</th>
           <th data-i18n="col_start">Algus</th>
+          <th data-i18n="col_resources">Ressursid</th>
           <th data-i18n="col_actions">Toimingud</th>
         </tr>
       </thead>
@@ -198,6 +199,49 @@
           <div class="form-group">
             <label for="form-actual" data-i18n="label_actual">Tegelik kokkuhoid (€/a)</label>
             <input type="number" id="form-actual" min="0" step="100">
+          </div>
+        </div>
+
+        <div class="form-group full-width">
+          <label data-i18n="label_resources">Kasutatavad ressursid</label>
+          <div class="resources-grid">
+            <div class="res-group">
+              <div class="res-group-label">Arendus</div>
+              <label><input type="checkbox" name="resources" value="GitHub"> GitHub</label>
+              <label><input type="checkbox" name="resources" value="GitLab"> GitLab</label>
+              <label><input type="checkbox" name="resources" value="VS Code"> VS Code</label>
+              <label><input type="checkbox" name="resources" value="Cursor"> Cursor</label>
+              <label><input type="checkbox" name="resources" value="Docker"> Docker</label>
+              <label><input type="checkbox" name="resources" value="Node.js"> Node.js</label>
+              <label><input type="checkbox" name="resources" value="Python"> Python</label>
+            </div>
+            <div class="res-group">
+              <div class="res-group-label">Hosting</div>
+              <label><input type="checkbox" name="resources" value="Zone.ee"> Zone.ee</label>
+              <label><input type="checkbox" name="resources" value="Telia"> Telia</label>
+              <label><input type="checkbox" name="resources" value="Hetzner"> Hetzner</label>
+              <label><input type="checkbox" name="resources" value="Coolify"> Coolify</label>
+            </div>
+            <div class="res-group">
+              <div class="res-group-label">Automatiseerimine</div>
+              <label><input type="checkbox" name="resources" value="n8n"> n8n</label>
+              <label><input type="checkbox" name="resources" value="Zapier"> Zapier</label>
+              <label><input type="checkbox" name="resources" value="Make"> Make</label>
+              <label><input type="checkbox" name="resources" value="Power Automate"> Power Automate</label>
+            </div>
+            <div class="res-group">
+              <div class="res-group-label">Andmebaasid</div>
+              <label><input type="checkbox" name="resources" value="SQLite"> SQLite</label>
+              <label><input type="checkbox" name="resources" value="PostgreSQL"> PostgreSQL</label>
+              <label><input type="checkbox" name="resources" value="MySQL"> MySQL</label>
+            </div>
+            <div class="res-group">
+              <div class="res-group-label">AI API-d</div>
+              <label><input type="checkbox" name="resources" value="Claude API"> Claude API</label>
+              <label><input type="checkbox" name="resources" value="OpenAI API"> OpenAI API</label>
+              <label><input type="checkbox" name="resources" value="Azure OpenAI"> Azure OpenAI</label>
+              <label><input type="checkbox" name="resources" value="Hugging Face"> Hugging Face</label>
+            </div>
           </div>
         </div>
 
