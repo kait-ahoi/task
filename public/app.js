@@ -9,7 +9,7 @@ const state = {
 // ── i18n ───────────────────────────────────────────────────────────────────
 async function loadLang(code) {
   const res = await fetch(`/i18n/${code}.json`);
-  window.t = await res.json();
+  window.translations = await res.json();
   state.lang = code;
   localStorage.setItem('lang', code);
 
@@ -21,7 +21,7 @@ async function loadLang(code) {
 }
 
 function t(key) {
-  return (window.t && window.t[key]) || key;
+  return (window.translations && window.translations[key]) || key;
 }
 
 function applyTranslations() {
