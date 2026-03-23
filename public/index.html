@@ -129,35 +129,44 @@
             <input type="text" id="form-responsible" required>
           </div>
           <div class="form-group">
-            <label for="form-department" data-i18n="label_department">Osakond</label>
-            <input type="text" id="form-department" required>
+            <label for="form-department" data-i18n="label_department">Tellija firma</label>
+            <select id="form-department" required>
+              <option value="">—</option>
+              <option value="JEE">JEE</option>
+              <option value="JLV">JLV</option>
+              <option value="JLT">JLT</option>
+              <option value="VEE">VEE</option>
+              <option value="VLV">VLV</option>
+              <option value="VLT">VLT</option>
+              <option value="VFRE">VFRE</option>
+            </select>
           </div>
         </div>
 
         <div class="form-row">
           <div class="form-group">
             <label for="form-tool" data-i18n="label_tool">Kasutatav AI</label>
-            <input type="text" id="form-tool" list="ai-tools-list" required autocomplete="off">
-            <datalist id="ai-tools-list">
-              <option value="Claude">
-              <option value="Claude Code">
-              <option value="ChatGPT">
-              <option value="Copilot">
-              <option value="Gemini">
-              <option value="Gemini GEM">
-              <option value="Other / Muu">
-            </datalist>
+            <select id="form-tool" required>
+              <option value="">—</option>
+              <option value="Claude">Claude</option>
+              <option value="Claude Code">Claude Code</option>
+              <option value="ChatGPT">ChatGPT</option>
+              <option value="Copilot">Copilot</option>
+              <option value="Gemini">Gemini</option>
+              <option value="Gemini GEM">Gemini GEM</option>
+              <option value="Other">Other / Muu</option>
+            </select>
           </div>
           <div class="form-group">
             <label for="form-provider" data-i18n="label_provider">Teenusepakkuja</label>
-            <input type="text" id="form-provider" list="providers-list" autocomplete="off" data-i18n-placeholder="placeholder_provider">
-            <datalist id="providers-list">
-              <option value="Anthropic">
-              <option value="OpenAI">
-              <option value="Microsoft">
-              <option value="Google">
-              <option value="Zone.ee">
-            </datalist>
+            <select id="form-provider">
+              <option value="">—</option>
+              <option value="Anthropic">Anthropic</option>
+              <option value="OpenAI">OpenAI</option>
+              <option value="Microsoft">Microsoft</option>
+              <option value="Google">Google</option>
+              <option value="Zone.ee">Zone.ee</option>
+            </select>
           </div>
         </div>
 
