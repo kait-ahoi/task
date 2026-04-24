@@ -55,6 +55,11 @@ function resourceTags(val) {
   return val.split(',').filter(Boolean).map(r => `<span class="res-tag">@${r.trim()}</span>`).join(' ');
 }
 
+function countryTags(val) {
+  if (!val) return '—';
+  return val.split(',').filter(Boolean).map(c => `${COUNTRY_FLAGS[c.trim()] || ''} ${c.trim()}`).join(', ');
+}
+
 function statusBadge(status) {
   const label = t(`status_${status}`) || status;
   return `<span class="badge badge-${status}">${label}</span>`;
@@ -99,7 +104,7 @@ function renderTable(projects) {
   tbody.innerHTML = projects.map(p => `
     <tr>
       <td><strong>${esc(p.name)}</strong>${p.description ? `<br><small style="color:var(--text-muted)">${esc(p.description.slice(0, 60))}${p.description.length > 60 ? '…' : ''}</small>` : ''}</td>
-      <td class="country-tag">${COUNTRY_FLAGS[p.country] || ''} ${esc(p.country)}</td>
+      <td class="country-tag">${countryTags(p.country)}</td>
       <td>${esc(p.responsible)}</td>
       <td>${esc(p.department)}</td>
       <td>${esc(p.ai_tool)}</td>
@@ -131,7 +136,7 @@ function openAddModal() {
   document.getElementById('form-id').value = '';
   document.getElementById('pin-group').hidden = true;
   document.getElementById('form-pin').value = '';
-  document.querySelectorAll('[name="resources"]').forEach(cb => cb.checked = false);
+  document.querySelectorAll('[name="resources"],[name="country"],[name="department"]').forEach(cb => cb.checked = false);
   clearFormErrors();
   showModal('modal-overlay');
 }
@@ -150,10 +155,14 @@ async function openEditModal(id) {
 
     document.getElementById('form-id').value = p.id;
     document.getElementById('form-name').value = p.name;
-    document.getElementById('form-country').value = p.country;
     document.getElementById('form-responsible').value = p.responsible;
-    document.getElementById('form-department').value = p.department;
     document.getElementById('form-tool').value = p.ai_tool;
+
+    const selCountries = (p.country || '').split(',').map(c => c.trim()).filter(Boolean);
+    document.querySelectorAll('[name="country"]').forEach(cb => { cb.checked = selCountries.includes(cb.value); });
+
+    const selDepts = (p.department || '').split(',').map(d => d.trim()).filter(Boolean);
+    document.querySelectorAll('[name="department"]').forEach(cb => { cb.checked = selDepts.includes(cb.value); });
     document.getElementById('form-provider').value = p.service_provider || '';
     document.getElementById('form-status').value = p.status;
     document.getElementById('form-planned').value = p.planned_savings || '';
@@ -182,9 +191,9 @@ async function submitProject(e) {
   const isEdit = !!state.editingId;
   const body = {
     name: document.getElementById('form-name').value.trim(),
-    country: document.getElementById('form-country').value,
+    country: Array.from(document.querySelectorAll('[name="country"]:checked')).map(cb => cb.value).join(','),
     responsible: document.getElementById('form-responsible').value.trim(),
-    department: document.getElementById('form-department').value.trim(),
+    department: Array.from(document.querySelectorAll('[name="department"]:checked')).map(cb => cb.value).join(','),
     ai_tool: document.getElementById('form-tool').value,
     service_provider: document.getElementById('form-provider').value.trim(),
     status: document.getElementById('form-status').value,
@@ -199,7 +208,7 @@ async function submitProject(e) {
   let valid = true;
   required.forEach(f => {
     if (!body[f]) {
-      const idMap = { ai_tool: 'form-tool' };
+      const idMap = { ai_tool: 'form-tool', country: 'form-country-grp', department: 'form-department-grp' };
       const inputId = idMap[f] || `form-${f}`;
       const el = document.getElementById(inputId);
       if (el) el.classList.add('error');
@@ -235,7 +244,7 @@ async function submitProject(e) {
 }
 
 function clearFormErrors() {
-  document.querySelectorAll('.form-group input.error, .form-group select.error').forEach(el => el.classList.remove('error'));
+  document.querySelectorAll('.form-group input.error, .form-group select.error, .check-group.error').forEach(el => el.classList.remove('error'));
   document.querySelectorAll('.field-error').forEach(el => el.hidden = true);
 }
 

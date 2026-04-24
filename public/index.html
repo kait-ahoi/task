@@ -113,14 +113,13 @@
             <input type="text" id="form-name" required>
           </div>
           <div class="form-group">
-            <label for="form-country" data-i18n="label_country">Riik / keel</label>
-            <select id="form-country" required>
-              <option value="">—</option>
-              <option value="EE">🇪🇪 EE</option>
-              <option value="LV">🇱🇻 LV</option>
-              <option value="LT">🇱🇹 LT</option>
-              <option value="ENG">🌐 ENG</option>
-            </select>
+            <label data-i18n="label_country">Riik / keel</label>
+            <div class="check-group" id="form-country-grp">
+              <label><input type="checkbox" name="country" value="EE"> 🇪🇪 EE</label>
+              <label><input type="checkbox" name="country" value="LV"> 🇱🇻 LV</label>
+              <label><input type="checkbox" name="country" value="LT"> 🇱🇹 LT</label>
+              <label><input type="checkbox" name="country" value="ENG"> 🌐 ENG</label>
+            </div>
           </div>
         </div>
 
@@ -130,18 +129,17 @@
             <input type="text" id="form-responsible" required>
           </div>
           <div class="form-group">
-            <label for="form-department" data-i18n="label_department">Tellija firma</label>
-            <select id="form-department" required>
-              <option value="">—</option>
-              <option value="JEE">JEE</option>
-              <option value="JLV">JLV</option>
-              <option value="JLT">JLT</option>
-              <option value="VEE">VEE</option>
-              <option value="VLV">VLV</option>
-              <option value="VLT">VLT</option>
-              <option value="VFRE">VFRE</option>
-              <option value="JNG">JNG</option>
-            </select>
+            <label data-i18n="label_department">Tellija firma</label>
+            <div class="check-group" id="form-department-grp">
+              <label><input type="checkbox" name="department" value="JEE"> JEE</label>
+              <label><input type="checkbox" name="department" value="JLV"> JLV</label>
+              <label><input type="checkbox" name="department" value="JLT"> JLT</label>
+              <label><input type="checkbox" name="department" value="VEE"> VEE</label>
+              <label><input type="checkbox" name="department" value="VLV"> VLV</label>
+              <label><input type="checkbox" name="department" value="VLT"> VLT</label>
+              <label><input type="checkbox" name="department" value="VFRE"> VFRE</label>
+              <label><input type="checkbox" name="department" value="JNG"> JNG</label>
+            </div>
           </div>
         </div>
 
@@ -156,6 +154,7 @@
               <option value="Copilot">Copilot</option>
               <option value="Gemini">Gemini</option>
               <option value="Gemini GEM">Gemini GEM</option>
+              <option value="Perplexity">Perplexity</option>
               <option value="Other">Other / Muu</option>
             </select>
           </div>
@@ -167,7 +166,7 @@
               <option value="OpenAI">OpenAI</option>
               <option value="Microsoft">Microsoft</option>
               <option value="Google">Google</option>
-              <option value="Zone.ee">Zone.ee</option>
+              <option value="Zone.eu">Zone.eu</option>
             </select>
           </div>
         </div>
@@ -217,7 +216,7 @@
             </div>
             <div class="res-group">
               <div class="res-group-label">Hosting</div>
-              <label><input type="checkbox" name="resources" value="Zone.ee"> Zone.ee</label>
+              <label><input type="checkbox" name="resources" value="Zone.eu"> Zone.eu</label>
               <label><input type="checkbox" name="resources" value="Telia"> Telia</label>
               <label><input type="checkbox" name="resources" value="Hetzner"> Hetzner</label>
               <label><input type="checkbox" name="resources" value="Coolify"> Coolify</label>
