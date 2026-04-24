@@ -36,7 +36,8 @@ router.post('/', (req, res) => {
   if (!name || !country || !responsible || !department || !ai_tool || !status) {
     return res.status(400).json({ error: 'Missing required fields' });
   }
-  if (!VALID_COUNTRIES.includes(country)) return res.status(400).json({ error: 'Invalid country' });
+  const countryList = country.split(',').map(c => c.trim()).filter(Boolean);
+  if (!countryList.length || !countryList.every(c => VALID_COUNTRIES.includes(c))) return res.status(400).json({ error: 'Invalid country' });
   if (!VALID_STATUSES.includes(status)) return res.status(400).json({ error: 'Invalid status' });
 
   const stmt = db.prepare(`
@@ -56,7 +57,8 @@ router.put('/:id', requirePin, (req, res) => {
   if (!name || !country || !responsible || !department || !ai_tool || !status) {
     return res.status(400).json({ error: 'Missing required fields' });
   }
-  if (!VALID_COUNTRIES.includes(country)) return res.status(400).json({ error: 'Invalid country' });
+  const countryList = country.split(',').map(c => c.trim()).filter(Boolean);
+  if (!countryList.length || !countryList.every(c => VALID_COUNTRIES.includes(c))) return res.status(400).json({ error: 'Invalid country' });
   if (!VALID_STATUSES.includes(status)) return res.status(400).json({ error: 'Invalid status' });
 
   const existing = db.prepare('SELECT id FROM projects WHERE id = ?').get(req.params.id);
