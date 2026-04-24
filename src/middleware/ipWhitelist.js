@@ -20,9 +20,7 @@ function isInCidr(ip, cidr) {
 }
 
 function getClientIp(req) {
-  const forwarded = req.headers['x-forwarded-for'];
-  if (forwarded) return forwarded.split(',')[0].trim();
-  return req.socket.remoteAddress?.replace('::ffff:', '') || '';
+  return (req.ip || req.socket.remoteAddress || '').replace('::ffff:', '');
 }
 
 function ipWhitelist(req, res, next) {
