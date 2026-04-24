@@ -2,9 +2,12 @@ require('dotenv').config({ path: require('path').join(__dirname, '.env') });
 const express = require('express');
 const path = require('path');
 const compression = require('compression');
+const ipWhitelist = require('./src/middleware/ipWhitelist');
 
 const app = express();
+app.set('trust proxy', 1);
 app.use(compression());
+app.use(ipWhitelist);
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
