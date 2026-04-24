@@ -64,4 +64,32 @@ if (version < 2) {
   `);
 }
 
+if (version < 3) {
+  db.exec(`
+    BEGIN;
+    CREATE TABLE projects_new (
+      id               INTEGER PRIMARY KEY AUTOINCREMENT,
+      name             TEXT NOT NULL,
+      country          TEXT NOT NULL,
+      responsible      TEXT NOT NULL,
+      department       TEXT NOT NULL,
+      ai_tool          TEXT NOT NULL,
+      service_provider TEXT,
+      status           TEXT NOT NULL CHECK(status IN ('Planning','Development','Pilot','Live','Paused','Valmis')),
+      planned_savings  REAL DEFAULT 0,
+      actual_savings   REAL DEFAULT 0,
+      start_date       TEXT,
+      description      TEXT,
+      created_at       TEXT NOT NULL DEFAULT (datetime('now')),
+      updated_at       TEXT NOT NULL DEFAULT (datetime('now')),
+      resources        TEXT DEFAULT ''
+    );
+    INSERT INTO projects_new SELECT * FROM projects;
+    DROP TABLE projects;
+    ALTER TABLE projects_new RENAME TO projects;
+    PRAGMA user_version = 3;
+    COMMIT;
+  `);
+}
+
 module.exports = db;
