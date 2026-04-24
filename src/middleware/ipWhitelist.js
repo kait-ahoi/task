@@ -32,11 +32,11 @@ function ipWhitelist(req, res, next) {
   if (allowed.some(cidr => isInCidr(clientIp, cidr))) return next();
 
   res.status(403).send(`<!DOCTYPE html>
-<html lang="et">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Juurdepääs keelatud</title>
+  <title>Access Denied</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -76,9 +76,9 @@ function ipWhitelist(req, res, next) {
 <body>
   <div class="card">
     <div class="icon">&#128274;</div>
-    <h1>Juurdepääs keelatud</h1>
-    <p>Sinu IP-aadress ei ole lubatud sellele lehele ligi pääseda.</p>
-    <p>Võta ühendust administraatoriga.</p>
+    <h1>Access Denied</h1>
+    <p>Your IP address is not authorized to access this page.</p>
+    <p>Contact <a href="mailto:kait@jungent.eu" style="color:#60a5fa;">kait@jungent.eu</a> to request access.</p>
     <div class="ip">${clientIp}</div>
   </div>
 </body>
